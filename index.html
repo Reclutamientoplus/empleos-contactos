@@ -3,87 +3,235 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Registro de Candidatos</title>
+    <title>Registro Profesional | Talent Hub</title>
+    <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
     <style>
-        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #f0f2f5; display: flex; justify-content: center; align-items: center; min-height: 100vh; margin: 0; padding: 20px; }
-        .container { background: white; padding: 40px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); width: 100%; max-width: 450px; }
-        h2 { color: #1a73e8; text-align: center; margin-bottom: 10px; }
-        p { text-align: center; color: #5f6368; margin-bottom: 25px; font-size: 15px; }
-        label { display: block; margin-top: 15px; color: #3c4043; font-weight: 600; font-size: 14px; }
-        input, textarea { width: 100%; padding: 12px; margin-top: 8px; border: 1.5px solid #dadce0; border-radius: 6px; box-sizing: border-box; font-size: 14px; transition: border-color 0.2s; }
-        input:focus, textarea:focus { outline: none; border-color: #1a73e8; }
-        button { width: 100%; background-color: #1a73e8; color: white; border: none; padding: 14px; margin-top: 25px; border-radius: 6px; cursor: pointer; font-size: 16px; font-weight: bold; transition: background-color 0.2s; }
-        button:hover { background-color: #1557b0; }
-        .footer-note { font-size: 12px; color: #9aa0a6; text-align: center; margin-top: 20px; }
+        :root {
+            --brand-navy: #0f172a;
+            --brand-blue: #2563eb;
+            --bg-soft: #fcfcfd;
+            --border: #e5e7eb;
+            --text-main: #1e293b;
+            --text-light: #64748b;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-soft);
+            color: var(--text-main);
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .main-wrapper {
+            width: 100%;
+            max-width: 900px;
+            padding: 40px;
+            display: grid;
+            grid-template-columns: 1fr 1.5fr;
+            gap: 60px;
+            background: white;
+            border-radius: 2px; /* Bordes rectos para mayor seriedad */
+            box-shadow: 0 40px 100px rgba(0,0,0,0.03);
+        }
+
+        /* Columna de Marca/Info */
+        .info-panel {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        h1 {
+            font-family: 'Instrument Serif', serif;
+            font-size: 52px;
+            line-height: 1;
+            margin: 0 0 20px 0;
+            font-weight: 400;
+        }
+
+        .status-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--brand-blue);
+            margin-bottom: 20px;
+        }
+
+        .status-pill::before {
+            content: '';
+            width: 8px;
+            height: 8px;
+            background: var(--brand-blue);
+            border-radius: 50%;
+        }
+
+        /* Formulario Estilo Bento */
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .input-group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .full-width { grid-column: span 2; }
+
+        label {
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: var(--text-light);
+        }
+
+        input, textarea {
+            border: 1px solid var(--border);
+            padding: 14px;
+            font-size: 14px;
+            border-radius: 4px;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            background: #f9fafb;
+        }
+
+        input:focus, textarea:focus {
+            outline: none;
+            border-color: var(--brand-navy);
+            background: white;
+            box-shadow: 0 0 0 4px rgba(15, 23, 42, 0.05);
+        }
+
+        .btn-submit {
+            background: var(--brand-navy);
+            color: white;
+            border: none;
+            padding: 18px;
+            font-weight: 600;
+            font-size: 14px;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-top: 20px;
+            grid-column: span 2;
+        }
+
+        .btn-submit:hover {
+            background: #000;
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+
+        .legal-text {
+            font-size: 12px;
+            color: var(--text-light);
+            line-height: 1.6;
+            margin-top: 30px;
+        }
+
+        /* Adaptabilidad */
+        @media (max-width: 768px) {
+            .main-wrapper { grid-template-columns: 1fr; padding: 20px; gap: 40px; }
+            h1 { font-size: 40px; }
+            .form-grid { grid-template-columns: 1fr; }
+            .full-width { grid-column: span 1; }
+            .btn-submit { grid-column: span 1; }
+        }
     </style>
 </head>
 <body>
 
-<div class="container">
-    <h2>Registro para Empleo</h2>
-    <p>Completa tus datos para ayudarte a encontrar una oportunidad laboral.</p>
-    
-<form id="miFormulario" action="https://script.google.com/macros/s/AKfycbxKIyIwBVpG-ZKF7MeI7QIi2XGJq21kTiieA4PgNSluIXmEBFgTMFKtveDvm4MwoMsP/exec" method="POST">     
-        <label for="nombre">Nombre Completo:</label>
-        <input type="text" id="nombre" name="nombre" placeholder="Ej: Juan Pérez" required>
-
-        <label for="telefono">WhatsApp / Teléfono:</label>
-        <input type="tel" id="telefono" name="telefono" placeholder="Ej: +001 8888 8888" required>
-
-        <label for="email">Correo Electrónico :</label>
-        <input type="email" id="email" name="email" placeholder="ejemplo@correo.com">
-<label for="password">Crea una contraseña (para tu futuro perfil):</label>
-        <input type="password" id="password" name="password" placeholder="Mínimo 6 caracteres" required>
-        <label for="puesto">Puesto o Área de Interés:</label>
-        <input type="text" id="puesto" name="puesto" placeholder="Ej: Ventas, Redacción, Administración" required>
-
-        <label for="experiencia">Experiencia o Resumen Profesional:</label>
-        <textarea id="experiencia" name="experiencia" rows="4" placeholder="Cuéntame brevemente en qué has trabajado antes..."></textarea>
-
-       <button type="submit">Enviar mis datos</button>
-    <div class="footer-note">
-        Tus datos serán revisados únicamente para fines de reclutamiento...
+<div class="main-wrapper">
+    <div class="info-panel">
+        <div>
+            <div class="status-pill">Proyectos listos para ti.</div>
+            <h1>Talento sin fronteras, oportunidades sin límites.</h1>
+            <p style="color: var(--text-light); line-height: 1.6;">
+        </div>¡Su desarrollo profesional comienza aquí! Ya tiene acceso a nuestra plataforma de gestión de talento. Ahora, solo necesita completar su perfil (recuerde, no se preocupe por la extensión o experiencia de su currículum) y le ofreceremos la vía para que empiece a construir su trayectoria profesional con el puesto que le interesa.
+        </p>    
+        
+        <div class="legal-text">
+Toda la información proporcionada en este formulario será manejada de forma estrictamente confidencial y se utilizará únicamente con el propósito de reclutamiento.
+        </div>
     </div>
-</form> </div>
-<script>
-  window.addEventListener("load", function() {
-    const form = document.getElementById('miFormulario');
-    form.addEventListener("submit", function(e) {
-      e.preventDefault(); // Evita que la página se vaya a la pantalla en blanco
-      const data = new FormData(form);
-      const action = e.target.action;
-      const boton = form.querySelector('button');
-      
-      boton.innerText = "Enviando..."; // Cambia el texto del botón mientras carga
 
-      fetch(action, {
+    <form class="form-grid" id="talentForm" action="https://script.google.com/macros/s/AKfycbxKIyIwBVpG-ZKF7MeI7QIi2XGJq21kTiieA4PgNSluIXmEBFgTMFKtveDvm4MwoMsP/exec" method="POST">
+        <div class="input-group">
+            <label for="nombre">Nombre Completo</label>
+            <input type="text" id="nombre" name="nombre" placeholder="Nombre y Apellidos" required>
+        </div>
+
+        <div class="input-group">
+            <label for="puesto">Puesto de Interés</label>
+            <input type="text" id="puesto" name="puesto" placeholder="Ej. Ventas, redacción, marketing" required>
+        </div>
+
+        <div class="input-group">
+            <label for="email"> Gmail</label>
+            <input type="email" id="email" name="email" placeholder="nombre@gmail.com" required>
+        </div>
+
+        <div class="input-group">
+            <label for="telefono">Teléfono / WhatsApp</label>
+            <input type="tel" id="telefono" name="telefono" placeholder="+XX XXX XXX XXX" required>
+        </div>
+
+        <div class="input-group full-width">
+            <label for="password">Crea una contraseña (para tu futuro perfil):</label>
+            <input type="password" id="password" name="password" minlength="8" placeholder="Mínimo 8 caracteres" required>
+        </div>
+
+        <div class="input-group full-width">
+            <label for="experiencia">Experiencia o Resumen de Trayectoria</label>
+            <textarea id="experiencia" name="experiencia" rows="4" placeholder="Describe brevemente tus logros principales..."></textarea>
+        </div>
+
+        <button type="submit" class="btn-submit">Enviar Candidatura Oficial</button>
+    </form>
+</div>
+
+<script>
+    document.getElementById('talentForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+    const btn = document.querySelector('.btn-submit');
+    const form = e.target;
+    
+    btn.innerText = "Enviando Candidatura...";
+    btn.style.opacity = "0.7";
+    btn.disabled = true;
+
+    const data = new FormData(form);
+
+    fetch(form.action, {
         method: 'POST',
         body: data,
-      })
-      .then(() => {
-        alert("¡Gracias! Tus datos han sido recibidos con éxito. Nos contactaremos pronto.");
-        form.reset(); // Limpia las casillas para el siguiente candidato
-        boton.innerText = "Enviar mis datos"; // Regresa el botón a la normalidad
-      })
-      .catch(() => {
-        alert("Hubo un error, por favor intenta de nuevo.");
-        boton.innerText = "Enviar mis datos";
-      });
+        mode: 'no-cors' // Esto evita errores de redirección con Google Apps Script
+    })
+    .then(() => {
+        alert("Candidatura recibida con éxito. El departamento de selección revisará su perfil.");
+        form.reset();
+    })
+    .catch(error => {
+        alert("Error de conexión. Intente nuevamente.");
+        console.error(error);
+    })
+    .finally(() => {
+        btn.innerText = "Enviar Candidatura Oficial";
+        btn.style.opacity = "1";
+        btn.disabled = false;
     });
-  });
+});
 </script>
+
 </body>
-
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
