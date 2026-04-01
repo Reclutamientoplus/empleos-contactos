@@ -247,8 +247,7 @@
     <script>
         // ========== CONFIGURACIÓN ==========
         // 👇 REEMPLAZA ESTA URL CON LA QUE OBTENGAS AL DESPLEGAR EL SCRIPT
-        const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzTo__cBH7PgLOjCk7o5POvkwhRSCYYYRaipa8Jhe-gvyTKcccGIf78-2P84sR74RIgPQ/exec
-"; // <-- CAMBIA ESTO
+        const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzTo__cBH7PgLOjCk7o5POvkwhRSCYYYRaipa8Jhe-gvyTKcccGIf78-2P84sR74RIgPQ/exec"; // <-- CAMBIA ESTO
 
         // ========== LISTA DE EMPLEOS ==========
         const jobsData = [
@@ -425,7 +424,14 @@
         // ========== FORMULARIO DIRECTO ==========
         const directForm = document.getElementById("directApplicationForm");
         const jobInterestSelect = document.getElementById("jobInterest");
-
+const jobsData = [
+            { id: 1, title: "Electricista Industrial", company: "Contratistas Eléctricos del Norte", location: "Zona industrial, Santiago", description: "Instalación y mantenimiento de tableros eléctricos, lectura de planos. Experiencia en obra gruesa.", salary: "$800.000 - $1.100.000", type: "Tiempo completo", badge: "Urgente" },
+            { id: 2, title: "Albañil / Maestro de Obra", company: "Constructora Lider SpA", location: "Providencia / Ñuñoa", description: "Tareas de albañilería, enfierradura, revoques y seguimiento de obra. Mínimo 3 años de experiencia.", salary: "$750.000 - $950.000", type: "Full-time", badge: "Estable" },
+            { id: 3, title: "Ingeniero Civil en Construcción", company: "GC Proyectos", location: "Híbrido / Oficina central", description: "Supervisión de obras, coordinación con contratistas, control de costos y plazos. Ofrecemos desarrollo profesional.", salary: "$1.400.000 - $1.800.000", type: "Jornada completa", badge: "Líder" },
+            { id: 4, title: "Soldador Certificado", company: "Metalúrgica Andes", location: "Maipú / Cerrillos", description: "Soldadura MIG/MAG, estructuras metálicas. Certificación deseable, buena disposición.", salary: "$900.000 - $1.200.000", type: "Turnos rotativos", badge: "Inmediata" },
+            { id: 5, title: "Supervisor de Seguridad (Prevencionista)", company: "Seguridad Integral Contractors", location: "Obra Rancagua", description: "Asegurar cumplimiento normativo, charlas diarias, reportes. Experiencia en construcción.", salary: "$1.000.000 - $1.300.000", type: "Tiempo completo", badge: "Alta responsabilidad" },
+            { id: 6, title: "Ayudante de Construcción", company: "Inmobiliaria Progreso", location: "Las Condes / Vitacura", description: "Apoyo en obra gruesa, limpieza y manejo de materiales. Sin experiencia, capacitación interna.", salary: "$550.000 - $650.000", type: "Medio tiempo / Full", badge: "Entrada" }
+        ];
         function populateJobSelect() {
             jobInterestSelect.innerHTML = '<option value="">Selecciona una vacante</option>';
             jobsData.forEach(job => {
