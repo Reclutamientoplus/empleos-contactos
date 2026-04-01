@@ -2,236 +2,483 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Registro Profesional | Talent Hub</title>
-    <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>Conecta Empleo | Ofertas con Contratistas</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
-        :root {
-            --brand-navy: #0f172a;
-            --brand-blue: #2563eb;
-            --bg-soft: #fcfcfd;
-            --border: #e5e7eb;
-            --text-main: #1e293b;
-            --text-light: #64748b;
-        }
-
         body {
-            font-family: 'Inter', sans-serif;
-            background-color: var(--bg-soft);
-            color: var(--text-main);
-            margin: 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
+            background: linear-gradient(135deg, #f5f7fc 0%, #eef2f7 100%);
+            font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
         }
-
-        .main-wrapper {
-            width: 100%;
-            max-width: 900px;
-            padding: 40px;
-            display: grid;
-            grid-template-columns: 1fr 1.5fr;
-            gap: 60px;
-            background: white;
-            border-radius: 2px; /* Bordes rectos para mayor seriedad */
-            box-shadow: 0 40px 100px rgba(0,0,0,0.03);
+        .card-hover {
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
         }
-
-        /* Columna de Marca/Info */
-        .info-panel {
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
+        .card-hover:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 20px 25px -12px rgba(0, 0, 0, 0.15);
         }
-
-        h1 {
-            font-family: 'Instrument Serif', serif;
-            font-size: 52px;
-            line-height: 1;
-            margin: 0 0 20px 0;
-            font-weight: 400;
+        .modal-backdrop {
+            background-color: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(3px);
         }
-
-        .status-pill {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            font-size: 12px;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            color: var(--brand-blue);
-            margin-bottom: 20px;
+        .transition-smooth {
+            transition: all 0.3s ease;
         }
-
-        .status-pill::before {
-            content: '';
-            width: 8px;
-            height: 8px;
-            background: var(--brand-blue);
-            border-radius: 50%;
+        .job-badge {
+            background: rgba(59,130,246,0.1);
+            color: #1e40af;
         }
-
-        /* Formulario Estilo Bento */
-        .form-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 20px;
-        }
-
-        .input-group {
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-        }
-
-        .full-width { grid-column: span 2; }
-
-        label {
-            font-size: 11px;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            color: var(--text-light);
-        }
-
-        input, textarea {
-            border: 1px solid var(--border);
-            padding: 14px;
-            font-size: 14px;
-            border-radius: 4px;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            background: #f9fafb;
-        }
-
-        input:focus, textarea:focus {
-            outline: none;
-            border-color: var(--brand-navy);
-            background: white;
-            box-shadow: 0 0 0 4px rgba(15, 23, 42, 0.05);
-        }
-
-        .btn-submit {
-            background: var(--brand-navy);
-            color: white;
-            border: none;
-            padding: 18px;
-            font-weight: 600;
-            font-size: 14px;
-            border-radius: 4px;
-            cursor: pointer;
-            transition: all 0.3s;
-            margin-top: 20px;
-            grid-column: span 2;
-        }
-
-        .btn-submit:hover {
-            background: #000;
-            transform: translateY(-2px);
-            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
-        }
-
-        .legal-text {
-            font-size: 12px;
-            color: var(--text-light);
-            line-height: 1.6;
-            margin-top: 30px;
-        }
-
-        /* Adaptabilidad */
-        @media (max-width: 768px) {
-            .main-wrapper { grid-template-columns: 1fr; padding: 20px; gap: 40px; }
-            h1 { font-size: 40px; }
-            .form-grid { grid-template-columns: 1fr; }
-            .full-width { grid-column: span 1; }
-            .btn-submit { grid-column: span 1; }
+        html {
+            scroll-behavior: smooth;
         }
     </style>
 </head>
-<body>
+<body class="antialiased">
 
-<div class="main-wrapper">
-    <div class="info-panel">
-        <div>
-            <div class="status-pill">Proyectos listos para ti.</div>
-            <h1>Talento sin fronteras, oportunidades sin límites.</h1>
-            <p style="color: var(--text-light); line-height: 1.6;">
-        </div>¡Su desarrollo profesional comienza aquí! Ya tiene acceso a nuestra plataforma de gestión de talento. Ahora, solo necesita completar su perfil (recuerde, no se preocupe por la extensión o experiencia de su currículum) y le ofreceremos la vía para que empiece a construir su trayectoria profesional con el puesto que le interesa.
-        </p>    
-        
-        <div class="legal-text">
-Toda la información proporcionada en este formulario será manejada de forma estrictamente confidencial y se utilizará únicamente con el propósito de reclutamiento.
+    <!-- Header -->
+    <header class="bg-white shadow-md sticky top-0 z-20 border-b border-blue-100">
+        <div class="container mx-auto px-5 py-4 flex flex-wrap justify-between items-center">
+            <div class="flex items-center space-x-2">
+                <i class="fas fa-handshake text-3xl text-blue-600"></i>
+                <span class="font-bold text-2xl tracking-tight text-gray-800">Conecta<span class="text-blue-600">Empleo</span></span>
+            </div>
+            <div class="flex items-center space-x-4 text-gray-600">
+                <a href="#empleos" class="hidden md:inline-block hover:text-blue-600 font-medium transition">Ofertas</a>
+                <a href="#porque" class="hidden md:inline-block hover:text-blue-600 font-medium transition">Confianza</a>
+                <a href="#contacto" class="hidden md:inline-block hover:text-blue-600 font-medium transition">Contacto</a>
+                <a href="#empleos" class="bg-blue-600 hover:bg-blue-700 text-white px-5 py-2 rounded-full text-sm font-semibold shadow transition flex items-center gap-2"><i class="fas fa-briefcase"></i> Ver empleos</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero -->
+    <section class="container mx-auto px-5 pt-12 pb-10 md:pt-16">
+        <div class="flex flex-col md:flex-row items-center gap-10">
+            <div class="flex-1 text-center md:text-left">
+                <div class="inline-flex items-center gap-2 bg-blue-100 text-blue-800 rounded-full px-4 py-1.5 text-sm font-semibold mb-5">
+                    <i class="fas fa-building"></i> <span>Enlace directo con contratistas líderes</span>
+                </div>
+                <h1 class="text-4xl md:text-5xl font-extrabold text-gray-800 leading-tight">Impulsa tu carrera<br> con <span class="text-blue-600 underline decoration-blue-300">empleos verificados</span></h1>
+                <p class="text-gray-600 text-lg mt-5 max-w-xl mx-auto md:mx-0">Gracias a nuestra red de contratistas aliados, publicamos oportunidades reales y de calidad. Conectamos talento con empresas que buscan profesionales responsables.</p>
+                <div class="flex flex-wrap gap-4 mt-8 justify-center md:justify-start">
+                    <a href="#empleos" class="bg-blue-600 hover:bg-blue-700 text-white font-semibold px-7 py-3 rounded-xl shadow-md transition flex items-center gap-2"><i class="fas fa-arrow-down"></i> Explorar puestos</a>
+                    <a href="#form-solicitud" class="bg-white border border-gray-300 hover:border-blue-400 text-gray-700 font-semibold px-7 py-3 rounded-xl shadow-sm transition flex items-center gap-2"><i class="fas fa-file-alt"></i> Postulación rápida</a>
+                </div>
+                <div class="flex flex-wrap gap-4 mt-8 text-sm text-gray-500 justify-center md:justify-start">
+                    <span class="flex items-center gap-1"><i class="fas fa-check-circle text-green-500"></i> 100% ofertas reales</span>
+                    <span class="flex items-center gap-1"><i class="fas fa-users text-blue-500"></i> +12 contratistas aliados</span>
+                    <span class="flex items-center gap-1"><i class="fas fa-chart-line text-blue-500"></i> inserción laboral ágil</span>
+                </div>
+            </div>
+            <div class="flex-1 flex justify-center">
+                <div class="relative w-72 h-72 md:w-80 md:h-80 bg-gradient-to-br from-blue-50 to-indigo-100 rounded-full flex items-center justify-center shadow-xl">
+                    <i class="fas fa-briefcase text-7xl text-blue-500 opacity-80"></i>
+                    <div class="absolute -bottom-3 -right-3 bg-white rounded-full p-3 shadow-lg">
+                        <i class="fas fa-hard-hat text-3xl text-amber-600"></i>
+                    </div>
+                    <div class="absolute -top-2 -left-2 bg-white rounded-full p-2 shadow-md">
+                        <i class="fas fa-handshake text-2xl text-green-600"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Listado de empleos -->
+    <section id="empleos" class="container mx-auto px-5 py-12">
+        <div class="text-center mb-10">
+            <h2 class="text-3xl md:text-4xl font-bold text-gray-800">Oportunidades <span class="text-blue-600">activas</span></h2>
+            <div class="w-24 h-1 bg-blue-500 mx-auto mt-3 rounded-full"></div>
+            <p class="text-gray-500 mt-4 max-w-2xl mx-auto">Selecciona la vacante que se ajuste a tu perfil y postúlate directamente. Todas las posiciones cuentan con respaldo de contratistas confiables.</p>
+        </div>
+        <div id="jobsContainer" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-7"></div>
+        <div id="noJobsMsg" class="hidden text-center py-12 text-gray-400 text-lg">Próximamente más ofertas. ¡Vuelve pronto!</div>
+    </section>
+
+    <!-- Por qué confiar -->
+    <section id="porque" class="bg-white py-14 my-8 shadow-inner">
+        <div class="container mx-auto px-5">
+            <div class="text-center mb-10">
+                <i class="fas fa-handshake text-4xl text-blue-600 mb-3"></i>
+                <h2 class="text-3xl font-bold text-gray-800">Conexión directa con contratistas</h2>
+                <p class="text-gray-500 max-w-2xl mx-auto mt-2">Trabajamos codo a codo con empresas del sector construcción, mantenimiento e ingeniería.</p>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
+                <div class="p-6 rounded-2xl bg-blue-50/40 border border-blue-100">
+                    <div class="bg-blue-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4"><i class="fas fa-check-double text-2xl text-blue-700"></i></div>
+                    <h3 class="text-xl font-semibold">Empleos verificados</h3>
+                    <p class="text-gray-600 mt-2">Cada oferta es validada con el contratista asociado, sin intermediarios fantasmas.</p>
+                </div>
+                <div class="p-6 rounded-2xl bg-blue-50/40 border border-blue-100">
+                    <div class="bg-blue-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4"><i class="fas fa-chart-simple text-2xl text-blue-700"></i></div>
+                    <h3 class="text-xl font-semibold">Selección ágil</h3>
+                    <p class="text-gray-600 mt-2">Tu postulación llega directamente al área de contratación del contratista.</p>
+                </div>
+                <div class="p-6 rounded-2xl bg-blue-50/40 border border-blue-100">
+                    <div class="bg-blue-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4"><i class="fas fa-hand-holding-heart text-2xl text-blue-700"></i></div>
+                    <h3 class="text-xl font-semibold">Asesoría laboral</h3>
+                    <p class="text-gray-600 mt-2">Te orientamos durante el proceso para mejorar tu perfil profesional.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Formulario directo -->
+    <section id="form-solicitud" class="container mx-auto px-5 py-12">
+        <div class="max-w-4xl mx-auto bg-white rounded-2xl shadow-xl overflow-hidden border border-gray-100">
+            <div class="bg-gradient-to-r from-blue-700 to-blue-500 px-6 py-5">
+                <h3 class="text-2xl font-bold text-white flex items-center gap-2"><i class="fas fa-pen-alt"></i> Postulación general</h3>
+                <p class="text-blue-100 text-sm">Completa el formulario y cuéntanos a qué puesto deseas aplicar. ¡Nos contactamos rápido!</p>
+            </div>
+            <div class="p-6 md:p-8">
+                <form id="directApplicationForm">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+                        <div>
+                            <label class="block text-gray-700 font-semibold mb-1">Nombre completo *</label>
+                            <input type="text" id="fullName" required class="w-full border border-gray-300 rounded-xl px-4 py-2.5 focus:ring-2 focus:ring-blue-300 focus:border-blue-400 outline-none transition">
+                        </div>
+                        <div>
+                            <label class="block text-gray-700 font-semibold mb-1">Correo electrónico *</label>
+                            <input type="email" id="email" required class="w-full border border-gray-300 rounded-xl px-4 py-2.5 focus:ring-2 focus:ring-blue-300 focus:border-blue-400 outline-none transition">
+                        </div>
+                        <div>
+                            <label class="block text-gray-700 font-semibold mb-1">Teléfono / WhatsApp</label>
+                            <input type="tel" id="phone" class="w-full border border-gray-300 rounded-xl px-4 py-2.5 focus:ring-2 focus:ring-blue-300 focus:border-blue-400 outline-none transition">
+                        </div>
+                        <div>
+                            <label class="block text-gray-700 font-semibold mb-1">Puesto de interés *</label>
+                            <select id="jobInterest" class="w-full border border-gray-300 rounded-xl px-4 py-2.5 bg-white focus:ring-2 focus:ring-blue-300">
+                                <option value="">Selecciona una vacante</option>
+                            </select>
+                        </div>
+                        <div class="md:col-span-2">
+                            <label class="block text-gray-700 font-semibold mb-1">Breve mensaje / experiencia (opcional)</label>
+                            <textarea id="message" rows="3" class="w-full border border-gray-300 rounded-xl px-4 py-2.5 focus:ring-2 focus:ring-blue-300 resize-none" placeholder="Cuéntanos tu experiencia o disponibilidad..."></textarea>
+                        </div>
+                    </div>
+                    <div class="mt-6 flex justify-end">
+                        <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-7 rounded-xl shadow transition flex items-center gap-2"><i class="fas fa-paper-plane"></i> Enviar solicitud</button>
+                    </div>
+                    <p class="text-xs text-gray-400 mt-4 text-center">Al enviar, tus datos se comparten con nuestros contratistas aliados para procesos de selección.</p>
+                </form>
+                <div id="formFeedback" class="mt-4 hidden rounded-xl p-3 text-center font-medium"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer id="contacto" class="bg-gray-900 text-gray-300 mt-12 pt-10 pb-6">
+        <div class="container mx-auto px-5 grid grid-cols-1 md:grid-cols-4 gap-8">
+            <div>
+                <div class="flex items-center gap-2 mb-3">
+                    <i class="fas fa-handshake text-2xl text-blue-400"></i>
+                    <span class="font-bold text-xl text-white">ConectaEmpleo</span>
+                </div>
+                <p class="text-sm">Red de oportunidades laborales con respaldo de contratistas confiables en toda la región.</p>
+            </div>
+            <div>
+                <h4 class="text-white font-semibold mb-3">Enlaces rápidos</h4>
+                <ul class="space-y-2 text-sm">
+                    <li><a href="#empleos" class="hover:text-blue-400 transition"><i class="fas fa-chevron-right text-xs mr-1"></i> Vacantes activas</a></li>
+                    <li><a href="#porque" class="hover:text-blue-400 transition"><i class="fas fa-chevron-right text-xs mr-1"></i> Nuestros contratistas</a></li>
+                    <li><a href="#form-solicitud" class="hover:text-blue-400 transition"><i class="fas fa-chevron-right text-xs mr-1"></i> Postular ahora</a></li>
+                </ul>
+            </div>
+            <div>
+                <h4 class="text-white font-semibold mb-3">Contacto</h4>
+                <p class="text-sm flex items-center gap-2"><i class="fas fa-envelope text-blue-400"></i> talento@conectaempleo.com</p>
+                <p class="text-sm flex items-center gap-2 mt-2"><i class="fab fa-whatsapp text-green-400"></i> +56 9 1234 5678</p>
+                <p class="text-sm mt-2"><i class="fas fa-clock"></i> Atención: Lun-Vie 9:00 a 18:00</p>
+            </div>
+            <div>
+                <h4 class="text-white font-semibold mb-3">Confianza</h4>
+                <div class="flex gap-3 text-2xl">
+                    <i class="fas fa-hard-hat"></i>
+                    <i class="fas fa-tools"></i>
+                    <i class="fas fa-helmet-safety"></i>
+                </div>
+                <p class="text-xs mt-3">Empleos directos con contratistas líderes en construcción, electricidad y más.</p>
+            </div>
+        </div>
+        <div class="border-t border-gray-800 mt-8 pt-5 text-center text-xs text-gray-500">
+            &copy; 2025 ConectaEmpleo — Conectando talento con contratistas de confianza.
+        </div>
+    </footer>
+
+    <!-- Modal de postulación rápida -->
+    <div id="jobModal" class="fixed inset-0 z-50 hidden items-center justify-center p-4 transition-smooth">
+        <div class="absolute inset-0 modal-backdrop" id="modalBackdrop"></div>
+        <div class="bg-white rounded-2xl max-w-lg w-full shadow-2xl transform transition-all scale-95 opacity-0" id="modalContent">
+            <div class="flex justify-between items-center border-b px-6 py-4 bg-blue-50 rounded-t-2xl">
+                <h3 class="text-xl font-bold text-gray-800 flex items-center gap-2"><i class="fas fa-briefcase text-blue-600"></i> Postular a: <span id="modalJobTitle" class="text-blue-700">-</span></h3>
+                <button id="closeModalBtn" class="text-gray-500 hover:text-gray-800 text-2xl leading-5">&times;</button>
+            </div>
+            <div class="p-6">
+                <form id="modalApplyForm">
+                    <input type="hidden" id="modalJobId" value="">
+                    <div class="mb-4">
+                        <label class="block font-semibold text-gray-700 mb-1">Nombre completo *</label>
+                        <input type="text" id="modalName" required class="w-full border rounded-xl px-3 py-2 focus:ring-blue-300 focus:border-blue-400">
+                    </div>
+                    <div class="mb-4">
+                        <label class="block font-semibold text-gray-700 mb-1">Correo electrónico *</label>
+                        <input type="email" id="modalEmail" required class="w-full border rounded-xl px-3 py-2 focus:ring-blue-300">
+                    </div>
+                    <div class="mb-4">
+                        <label class="block font-semibold text-gray-700 mb-1">Teléfono</label>
+                        <input type="tel" id="modalPhone" class="w-full border rounded-xl px-3 py-2">
+                    </div>
+                    <div class="mb-4">
+                        <label class="block font-semibold text-gray-700 mb-1">Mensaje / experiencia</label>
+                        <textarea id="modalMessage" rows="2" class="w-full border rounded-xl px-3 py-2" placeholder="Breve descripción de tu experiencia..."></textarea>
+                    </div>
+                    <div class="flex justify-end gap-3 mt-5">
+                        <button type="button" id="cancelModalBtn" class="px-5 py-2 border border-gray-300 rounded-xl text-gray-700 hover:bg-gray-100">Cancelar</button>
+                        <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white px-5 py-2 rounded-xl shadow">Enviar postulación</button>
+                    </div>
+                </form>
+                <div id="modalFeedback" class="mt-3 text-center text-sm hidden"></div>
+            </div>
         </div>
     </div>
 
-    <form class="form-grid" id="talentForm" action="https://script.google.com/macros/s/AKfycbxKIyIwBVpG-ZKF7MeI7QIi2XGJq21kTiieA4PgNSluIXmEBFgTMFKtveDvm4MwoMsP/exec" method="POST">
-        <div class="input-group">
-            <label for="nombre">Nombre Completo</label>
-            <input type="text" id="nombre" name="nombre" placeholder="Nombre y Apellidos" required>
-        </div>
+    <script>
+        // ================= CONFIGURACIÓN DE TELEGRAM =================
+        // Reemplaza con los datos de tu bot:
+        const TELEGRAM_BOT_TOKEN = "TU_BOT_TOKEN";     // Ejemplo: "1234567890:ABCdefGHIjklmNOPqrStuVWXyz"
+        const TELEGRAM_CHAT_ID = "TU_CHAT_ID";         // Ejemplo: "-123456789" (grupo) o "123456789" (usuario)
+        // ============================================================
 
-        <div class="input-group">
-            <label for="puesto">Puesto de Interés</label>
-            <input type="text" id="puesto" name="puesto" placeholder="Ej. Ventas, redacción, marketing" required>
-        </div>
+        // Función para enviar mensaje a Telegram
+        async function sendToTelegram(message) {
+            if (!TELEGRAM_BOT_TOKEN || TELEGRAM_BOT_TOKEN === "TU_BOT_TOKEN" || !TELEGRAM_CHAT_ID || TELEGRAM_CHAT_ID === "TU_CHAT_ID") {
+                console.error("❌ Token o chat ID de Telegram no configurados.");
+                throw new Error("Configuración de Telegram incompleta");
+            }
+            const url = `https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`;
+            const payload = {
+                chat_id: TELEGRAM_CHAT_ID,
+                text: message,
+                parse_mode: "HTML"
+            };
+            const response = await fetch(url, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(payload)
+            });
+            if (!response.ok) {
+                throw new Error(`Error Telegram: ${response.status}`);
+            }
+            return await response.json();
+        }
 
-        <div class="input-group">
-            <label for="email"> Gmail</label>
-            <input type="email" id="email" name="email" placeholder="nombre@gmail.com" required>
-        </div>
+        // Datos de empleos
+        const jobsData = [
+            { id: 1, title: "Electricista Industrial", company: "Contratistas Eléctricos del Norte", location: "Zona industrial, Santiago", description: "Instalación y mantenimiento de tableros eléctricos, lectura de planos. Experiencia en obra gruesa.", salary: "$800.000 - $1.100.000", type: "Tiempo completo", badge: "Urgente" },
+            { id: 2, title: "Albañil / Maestro de Obra", company: "Constructora Lider SpA", location: "Providencia / Ñuñoa", description: "Tareas de albañilería, enfierradura, revoques y seguimiento de obra. Mínimo 3 años de experiencia.", salary: "$750.000 - $950.000", type: "Full-time", badge: "Estable" },
+            { id: 3, title: "Ingeniero Civil en Construcción", company: "GC Proyectos", location: "Híbrido / Oficina central", description: "Supervisión de obras, coordinación con contratistas, control de costos y plazos. Ofrecemos desarrollo profesional.", salary: "$1.400.000 - $1.800.000", type: "Jornada completa", badge: "Líder" },
+            { id: 4, title: "Soldador Certificado", company: "Metalúrgica Andes", location: "Maipú / Cerrillos", description: "Soldadura MIG/MAG, estructuras metálicas. Certificación deseable, buena disposición.", salary: "$900.000 - $1.200.000", type: "Turnos rotativos", badge: "Inmediata" },
+            { id: 5, title: "Supervisor de Seguridad (Prevencionista)", company: "Seguridad Integral Contractors", location: "Obra Rancagua", description: "Asegurar cumplimiento normativo, charlas diarias, reportes. Experiencia en construcción.", salary: "$1.000.000 - $1.300.000", type: "Tiempo completo", badge: "Alta responsabilidad" },
+            { id: 6, title: "Ayudante de Construcción", company: "Inmobiliaria Progreso", location: "Las Condes / Vitacura", description: "Apoyo en obra gruesa, limpieza y manejo de materiales. Sin experiencia, capacitación interna.", salary: "$550.000 - $650.000", type: "Medio tiempo / Full", badge: "Entrada" }
+        ];
 
-        <div class="input-group">
-            <label for="telefono">Teléfono / WhatsApp</label>
-            <input type="tel" id="telefono" name="telefono" placeholder="+XX XXX XXX XXX" required>
-        </div>
+        // Renderizar tarjetas
+        const container = document.getElementById("jobsContainer");
+        const noJobsMsg = document.getElementById("noJobsMsg");
+        function renderJobs() {
+            if (!jobsData.length) {
+                container.classList.add("hidden");
+                noJobsMsg.classList.remove("hidden");
+                return;
+            }
+            container.classList.remove("hidden");
+            noJobsMsg.classList.add("hidden");
+            container.innerHTML = "";
+            jobsData.forEach(job => {
+                const card = document.createElement("div");
+                card.className = "bg-white rounded-2xl shadow-md overflow-hidden border border-gray-100 card-hover transition-smooth flex flex-col";
+                card.innerHTML = `
+                    <div class="p-5 flex-1">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <span class="inline-block px-2 py-1 text-xs font-bold rounded-full job-badge">${job.badge || "Nuevo"}</span>
+                                <h3 class="text-xl font-bold mt-2 text-gray-800">${job.title}</h3>
+                            </div>
+                            <i class="fas fa-building text-blue-400 text-xl"></i>
+                        </div>
+                        <div class="mt-2 space-y-1 text-sm text-gray-600">
+                            <p><i class="fas fa-hard-hat w-5"></i> ${job.company}</p>
+                            <p><i class="fas fa-map-marker-alt w-5"></i> ${job.location}</p>
+                            <p><i class="fas fa-dollar-sign w-5"></i> ${job.salary}</p>
+                            <p><i class="fas fa-clock w-5"></i> ${job.type}</p>
+                        </div>
+                        <p class="text-gray-500 text-sm mt-3 border-t pt-2">${job.description.substring(0, 110)}${job.description.length > 110 ? "…" : ""}</p>
+                    </div>
+                    <div class="px-5 pb-5 mt-2">
+                        <button data-job='${JSON.stringify(job)}' class="applyBtn w-full bg-blue-50 hover:bg-blue-100 text-blue-700 font-semibold py-2.5 rounded-xl transition flex items-center justify-center gap-2"><i class="fas fa-paper-plane"></i> Postular ahora</button>
+                    </div>
+                `;
+                container.appendChild(card);
+            });
+            document.querySelectorAll(".applyBtn").forEach(btn => {
+                btn.addEventListener("click", (e) => {
+                    const jobData = JSON.parse(btn.getAttribute("data-job"));
+                    openModalWithJob(jobData);
+                });
+            });
+        }
 
-        <div class="input-group full-width">
-            <label for="password">Crea una contraseña (para tu futuro perfil):</label>
-            <input type="password" id="password" name="password" minlength="8" placeholder="Mínimo 8 caracteres" required>
-        </div>
+        // Modal
+        const modal = document.getElementById("jobModal");
+        const modalJobTitleSpan = document.getElementById("modalJobTitle");
+        const modalJobIdInput = document.getElementById("modalJobId");
+        const closeModalBtn = document.getElementById("closeModalBtn");
+        const cancelModalBtn = document.getElementById("cancelModalBtn");
+        const modalBackdrop = document.getElementById("modalBackdrop");
+        const modalForm = document.getElementById("modalApplyForm");
+        const modalFeedbackDiv = document.getElementById("modalFeedback");
+        let currentJob = null;
 
-        <div class="input-group full-width">
-            <label for="experiencia">Experiencia o Resumen de Trayectoria</label>
-            <textarea id="experiencia" name="experiencia" rows="4" placeholder="Describe brevemente tus logros principales..."></textarea>
-        </div>
+        function openModalWithJob(job) {
+            currentJob = job;
+            modalJobTitleSpan.innerText = job.title;
+            modalJobIdInput.value = job.id;
+            document.getElementById("modalName").value = "";
+            document.getElementById("modalEmail").value = "";
+            document.getElementById("modalPhone").value = "";
+            document.getElementById("modalMessage").value = "";
+            modalFeedbackDiv.classList.add("hidden");
+            modalFeedbackDiv.innerText = "";
+            modal.classList.remove("hidden");
+            modal.classList.add("flex");
+            const contentDiv = document.getElementById("modalContent");
+            contentDiv.classList.remove("scale-95", "opacity-0");
+            contentDiv.classList.add("scale-100", "opacity-100");
+        }
+        function closeModal() {
+            modal.classList.add("hidden");
+            modal.classList.remove("flex");
+            const contentDiv = document.getElementById("modalContent");
+            contentDiv.classList.add("scale-95", "opacity-0");
+            contentDiv.classList.remove("scale-100", "opacity-100");
+            currentJob = null;
+        }
+        closeModalBtn.addEventListener("click", closeModal);
+        cancelModalBtn.addEventListener("click", closeModal);
+        modalBackdrop.addEventListener("click", closeModal);
 
-        <button type="submit" class="btn-submit">Enviar Candidatura Oficial</button>
-    </form>
-</div>
+        // Envío modal a Telegram
+        modalForm.addEventListener("submit", async (e) => {
+            e.preventDefault();
+            const name = document.getElementById("modalName").value.trim();
+            const email = document.getElementById("modalEmail").value.trim();
+            if (!name || !email) {
+                modalFeedbackDiv.classList.remove("hidden");
+                modalFeedbackDiv.className = "mt-3 text-center text-sm bg-red-100 text-red-700 p-2 rounded-xl";
+                modalFeedbackDiv.innerText = "⚠️ Por favor completa nombre y correo.";
+                return;
+            }
+            const phone = document.getElementById("modalPhone").value;
+            const message = document.getElementById("modalMessage").value;
+            const puesto = currentJob?.title || "No especificado";
+            const company = currentJob?.company || "";
 
-<script>
-    document.getElementById('talentForm').addEventListener('submit', function(e) {
-    e.preventDefault();
-    const btn = document.querySelector('.btn-submit');
-    const form = e.target;
-    
-    btn.innerText = "Enviando Candidatura...";
-    btn.style.opacity = "0.7";
-    btn.disabled = true;
+            const telegramMsg = `📢 <b>NUEVA POSTULACIÓN</b> (desde modal)\n\n` +
+                `👤 <b>Nombre:</b> ${escapeHtml(name)}\n` +
+                `📧 <b>Email:</b> ${escapeHtml(email)}\n` +
+                `📞 <b>Teléfono:</b> ${escapeHtml(phone) || "No especificado"}\n` +
+                `💼 <b>Puesto:</b> ${escapeHtml(puesto)}\n` +
+                `🏢 <b>Empresa:</b> ${escapeHtml(company)}\n` +
+                `📝 <b>Mensaje:</b> ${escapeHtml(message) || "Sin mensaje adicional"}`;
 
-    const data = new FormData(form);
+            try {
+                await sendToTelegram(telegramMsg);
+                modalFeedbackDiv.classList.remove("hidden");
+                modalFeedbackDiv.className = "mt-3 text-center text-sm bg-green-100 text-green-700 p-2 rounded-xl";
+                modalFeedbackDiv.innerText = "✅ Postulación enviada con éxito. ¡Gracias!";
+                setTimeout(() => closeModal(), 2000);
+            } catch (error) {
+                console.error(error);
+                modalFeedbackDiv.classList.remove("hidden");
+                modalFeedbackDiv.className = "mt-3 text-center text-sm bg-red-100 text-red-700 p-2 rounded-xl";
+                modalFeedbackDiv.innerText = "❌ Error al enviar. Intenta de nuevo más tarde.";
+            }
+        });
 
-    fetch(form.action, {
-        method: 'POST',
-        body: data,
-        mode: 'no-cors' // Esto evita errores de redirección con Google Apps Script
-    })
-    .then(() => {
-        alert("Candidatura recibida con éxito. El departamento de selección revisará su perfil.");
-        form.reset();
-    })
-    .catch(error => {
-        alert("Error de conexión. Intente nuevamente.");
-        console.error(error);
-    })
-    .finally(() => {
-        btn.innerText = "Enviar Candidatura Oficial";
-        btn.style.opacity = "1";
-        btn.disabled = false;
-    });
-});
-</script>
+        // Formulario directo
+        const directForm = document.getElementById("directApplicationForm");
+        const jobInterestSelect = document.getElementById("jobInterest");
+        function populateJobSelect() {
+            jobInterestSelect.innerHTML = '<option value="">Selecciona una vacante</option>';
+            jobsData.forEach(job => {
+                const option = document.createElement("option");
+                option.value = job.title;
+                option.textContent = `${job.title} - ${job.company}`;
+                jobInterestSelect.appendChild(option);
+            });
+        }
+        populateJobSelect();
 
+        directForm.addEventListener("submit", async (e) => {
+            e.preventDefault();
+            const fullName = document.getElementById("fullName").value.trim();
+            const email = document.getElementById("email").value.trim();
+            const phone = document.getElementById("phone").value;
+            const jobSelected = document.getElementById("jobInterest").value;
+            const message = document.getElementById("message").value;
+            const feedbackDiv = document.getElementById("formFeedback");
+
+            if (!fullName || !email) {
+                feedbackDiv.classList.remove("hidden");
+                feedbackDiv.className = "bg-red-100 text-red-700 p-3 rounded-xl";
+                feedbackDiv.innerText = "❌ Debes ingresar nombre y correo electrónico.";
+                return;
+            }
+            if (!jobSelected) {
+                feedbackDiv.classList.remove("hidden");
+                feedbackDiv.className = "bg-red-100 text-red-700 p-3 rounded-xl";
+                feedbackDiv.innerText = "❌ Selecciona un puesto de interés para continuar.";
+                return;
+            }
+
+            const telegramMsg = `📢 <b>NUEVA POSTULACIÓN</b> (formulario general)\n\n` +
+                `👤 <b>Nombre:</b> ${escapeHtml(fullName)}\n` +
+                `📧 <b>Email:</b> ${escapeHtml(email)}\n` +
+                `📞 <b>Teléfono:</b> ${escapeHtml(phone) || "No especificado"}\n` +
+                `💼 <b>Puesto de interés:</b> ${escapeHtml(jobSelected)}\n` +
+                `📝 <b>Mensaje:</b> ${escapeHtml(message) || "Sin mensaje adicional"}`;
+
+            try {
+                await sendToTelegram(telegramMsg);
+                feedbackDiv.classList.remove("hidden");
+                feedbackDiv.className = "bg-green-100 text-green-700 p-3 rounded-xl";
+                feedbackDiv.innerHTML = "✅ ¡Solicitud enviada correctamente! Revisaremos tu perfil.";
+                directForm.reset();
+                setTimeout(() => feedbackDiv.classList.add("hidden"), 5000);
+            } catch (error) {
+                console.error(error);
+                feedbackDiv.classList.remove("hidden");
+                feedbackDiv.className = "bg-red-100 text-red-700 p-3 rounded-xl";
+                feedbackDiv.innerHTML = "❌ Hubo un error al enviar. Intenta nuevamente.";
+                setTimeout(() => feedbackDiv.classList.add("hidden"), 5000);
+            }
+        });
+
+        // Helper para escapar HTML (seguridad)
+        function escapeHtml(str) {
+            if (!str) return "";
+            return str.replace(/[&<>]/g, function(m) {
+                if (m === '&') return '&amp;';
+                if (m === '<') return '&lt;';
+                if (m === '>') return '&gt;';
+                return m;
+            }).replace(/[\uD800-\uDBFF][\uDC00-\uDFFF]/g, function(c) {
+                return c;
+            });
+        }
+
+        renderJobs();
+    </script>
 </body>
 </html>
