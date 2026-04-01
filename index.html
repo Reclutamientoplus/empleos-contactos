@@ -3,13 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <title>Conecta Empleo | Ofertas con Contratistas</title>
+    <title>Conecta Empleo | Oportunidades Laborales con Contratistas</title>
+    <!-- Tailwind CSS + Font Awesome -->
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
         body {
             background: linear-gradient(135deg, #f5f7fc 0%, #eef2f7 100%);
-            font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+            font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
         }
         .card-hover {
             transition: transform 0.2s ease, box-shadow 0.2s ease;
@@ -36,7 +37,7 @@
 </head>
 <body class="antialiased">
 
-    <!-- Header -->
+    <!-- Header / Navegación simple -->
     <header class="bg-white shadow-md sticky top-0 z-20 border-b border-blue-100">
         <div class="container mx-auto px-5 py-4 flex flex-wrap justify-between items-center">
             <div class="flex items-center space-x-2">
@@ -52,7 +53,7 @@
         </div>
     </header>
 
-    <!-- Hero -->
+    <!-- Sección Hero: presentación + conexión con contratistas -->
     <section class="container mx-auto px-5 pt-12 pb-10 md:pt-16">
         <div class="flex flex-col md:flex-row items-center gap-10">
             <div class="flex-1 text-center md:text-left">
@@ -85,7 +86,7 @@
         </div>
     </section>
 
-    <!-- Listado de empleos -->
+    <!-- Listado de empleos (sección principal) -->
     <section id="empleos" class="container mx-auto px-5 py-12">
         <div class="text-center mb-10">
             <h2 class="text-3xl md:text-4xl font-bold text-gray-800">Oportunidades <span class="text-blue-600">activas</span></h2>
@@ -96,7 +97,7 @@
         <div id="noJobsMsg" class="hidden text-center py-12 text-gray-400 text-lg">Próximamente más ofertas. ¡Vuelve pronto!</div>
     </section>
 
-    <!-- Por qué confiar -->
+    <!-- Sección "Por qué confiar" -->
     <section id="porque" class="bg-white py-14 my-8 shadow-inner">
         <div class="container mx-auto px-5">
             <div class="text-center mb-10">
@@ -124,7 +125,7 @@
         </div>
     </section>
 
-    <!-- Formulario directo -->
+    <!-- Formulario de postulación general -->
     <section id="form-solicitud" class="container mx-auto px-5 py-12">
         <div class="max-w-4xl mx-auto bg-white rounded-2xl shadow-xl overflow-hidden border border-gray-100">
             <div class="bg-gradient-to-r from-blue-700 to-blue-500 px-6 py-5">
@@ -206,7 +207,7 @@
         </div>
     </footer>
 
-    <!-- Modal de postulación rápida -->
+    <!-- MODAL para postulación rápida -->
     <div id="jobModal" class="fixed inset-0 z-50 hidden items-center justify-center p-4 transition-smooth">
         <div class="absolute inset-0 modal-backdrop" id="modalBackdrop"></div>
         <div class="bg-white rounded-2xl max-w-lg w-full shadow-2xl transform transition-all scale-95 opacity-0" id="modalContent">
@@ -244,36 +245,12 @@
     </div>
 
     <script>
-        // ================= CONFIGURACIÓN DE TELEGRAM =================
-        // Reemplaza con los datos de tu bot:
-        const TELEGRAM_BOT_TOKEN = "8764340857:AAEENTTDrmH8HkcRkwXTmgJokWfiI9DTn24";     // Ejemplo: "1234567890:ABCdefGHIjklmNOPqrStuVWXyz"
-        const TELEGRAM_CHAT_ID = "6237894148";         // Ejemplo: "-123456789" (grupo) o "123456789" (usuario)
-        // ============================================================
+        // ========== CONFIGURACIÓN ==========
+        // 👇 REEMPLAZA ESTA URL CON LA QUE OBTENGAS AL DESPLEGAR EL SCRIPT
+        const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzTo__cBH7PgLOjCk7o5POvkwhRSCYYYRaipa8Jhe-gvyTKcccGIf78-2P84sR74RIgPQ/exec
+"; // <-- CAMBIA ESTO
 
-        // Función para enviar mensaje a Telegram
-        async function sendToTelegram(message) {
-            if (!TELEGRAM_BOT_TOKEN || TELEGRAM_BOT_TOKEN === "TU_BOT_TOKEN" || !TELEGRAM_CHAT_ID || TELEGRAM_CHAT_ID === "TU_CHAT_ID") {
-                console.error("❌ Token o chat ID de Telegram no configurados.");
-                throw new Error("Configuración de Telegram incompleta");
-            }
-            const url = `https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`;
-            const payload = {
-                chat_id: TELEGRAM_CHAT_ID,
-                text: message,
-                parse_mode: "HTML"
-            };
-            const response = await fetch(url, {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify(payload)
-            });
-            if (!response.ok) {
-                throw new Error(`Error Telegram: ${response.status}`);
-            }
-            return await response.json();
-        }
-
-        // Datos de empleos
+        // ========== LISTA DE EMPLEOS ==========
         const jobsData = [
             { id: 1, title: "Electricista Industrial", company: "Contratistas Eléctricos del Norte", location: "Zona industrial, Santiago", description: "Instalación y mantenimiento de tableros eléctricos, lectura de planos. Experiencia en obra gruesa.", salary: "$800.000 - $1.100.000", type: "Tiempo completo", badge: "Urgente" },
             { id: 2, title: "Albañil / Maestro de Obra", company: "Constructora Lider SpA", location: "Providencia / Ñuñoa", description: "Tareas de albañilería, enfierradura, revoques y seguimiento de obra. Mínimo 3 años de experiencia.", salary: "$750.000 - $950.000", type: "Full-time", badge: "Estable" },
@@ -283,9 +260,55 @@
             { id: 6, title: "Ayudante de Construcción", company: "Inmobiliaria Progreso", location: "Las Condes / Vitacura", description: "Apoyo en obra gruesa, limpieza y manejo de materiales. Sin experiencia, capacitación interna.", salary: "$550.000 - $650.000", type: "Medio tiempo / Full", badge: "Entrada" }
         ];
 
-        // Renderizar tarjetas
+        // Función para enviar datos a Google Sheets
+        async function sendToGoogleSheet(data) {
+            try {
+                const response = await fetch(GOOGLE_SCRIPT_URL, {
+                    method: 'POST',
+                    mode: 'no-cors', // Para evitar problemas de CORS (no podemos leer respuesta)
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(data)
+                });
+                // Como usamos no-cors, no podemos obtener la respuesta JSON.
+                // Asumimos éxito si no hay error de red.
+                return { success: true };
+            } catch (error) {
+                console.error('Error al enviar a Google Sheets:', error);
+                return { success: false, error: error.message };
+            }
+        }
+
+        // Mostrar mensaje de feedback en el formulario directo
+        function showDirectFeedback(message, isError = false) {
+            const feedbackDiv = document.getElementById("formFeedback");
+            feedbackDiv.classList.remove("hidden");
+            feedbackDiv.className = `mt-4 rounded-xl p-3 text-center font-medium ${isError ? 'bg-red-100 text-red-700' : 'bg-green-100 text-green-700'}`;
+            feedbackDiv.innerHTML = message;
+            setTimeout(() => {
+                feedbackDiv.classList.add("hidden");
+            }, 5000);
+        }
+
+        // Mostrar mensaje en el modal
+        function showModalFeedback(message, isError = false) {
+            const feedbackDiv = document.getElementById("modalFeedback");
+            feedbackDiv.classList.remove("hidden");
+            feedbackDiv.className = `mt-3 text-center text-sm p-2 rounded-xl ${isError ? 'bg-red-100 text-red-700' : 'bg-green-100 text-green-700'}`;
+            feedbackDiv.innerText = message;
+            if (!isError) {
+                setTimeout(() => {
+                    feedbackDiv.classList.add("hidden");
+                    closeModal();
+                }, 2000);
+            }
+        }
+
+        // ========== RENDER JOBS ==========
         const container = document.getElementById("jobsContainer");
         const noJobsMsg = document.getElementById("noJobsMsg");
+
         function renderJobs() {
             if (!jobsData.length) {
                 container.classList.add("hidden");
@@ -329,7 +352,7 @@
             });
         }
 
-        // Modal
+        // ========== MODAL ==========
         const modal = document.getElementById("jobModal");
         const modalJobTitleSpan = document.getElementById("modalJobTitle");
         const modalJobIdInput = document.getElementById("modalJobId");
@@ -349,13 +372,13 @@
             document.getElementById("modalPhone").value = "";
             document.getElementById("modalMessage").value = "";
             modalFeedbackDiv.classList.add("hidden");
-            modalFeedbackDiv.innerText = "";
             modal.classList.remove("hidden");
             modal.classList.add("flex");
             const contentDiv = document.getElementById("modalContent");
             contentDiv.classList.remove("scale-95", "opacity-0");
             contentDiv.classList.add("scale-100", "opacity-100");
         }
+
         function closeModal() {
             modal.classList.add("hidden");
             modal.classList.remove("flex");
@@ -364,51 +387,45 @@
             contentDiv.classList.remove("scale-100", "opacity-100");
             currentJob = null;
         }
+
         closeModalBtn.addEventListener("click", closeModal);
         cancelModalBtn.addEventListener("click", closeModal);
         modalBackdrop.addEventListener("click", closeModal);
 
-        // Envío modal a Telegram
         modalForm.addEventListener("submit", async (e) => {
             e.preventDefault();
             const name = document.getElementById("modalName").value.trim();
             const email = document.getElementById("modalEmail").value.trim();
             if (!name || !email) {
-                modalFeedbackDiv.classList.remove("hidden");
-                modalFeedbackDiv.className = "mt-3 text-center text-sm bg-red-100 text-red-700 p-2 rounded-xl";
-                modalFeedbackDiv.innerText = "⚠️ Por favor completa nombre y correo.";
+                showModalFeedback("⚠️ Por favor completa nombre y correo.", true);
                 return;
             }
             const phone = document.getElementById("modalPhone").value;
             const message = document.getElementById("modalMessage").value;
-            const puesto = currentJob?.title || "No especificado";
-            const company = currentJob?.company || "";
 
-            const telegramMsg = `📢 <b>NUEVA POSTULACIÓN</b> (desde modal)\n\n` +
-                `👤 <b>Nombre:</b> ${escapeHtml(name)}\n` +
-                `📧 <b>Email:</b> ${escapeHtml(email)}\n` +
-                `📞 <b>Teléfono:</b> ${escapeHtml(phone) || "No especificado"}\n` +
-                `💼 <b>Puesto:</b> ${escapeHtml(puesto)}\n` +
-                `🏢 <b>Empresa:</b> ${escapeHtml(company)}\n` +
-                `📝 <b>Mensaje:</b> ${escapeHtml(message) || "Sin mensaje adicional"}`;
+            // Datos a enviar
+            const payload = {
+                nombre: name,
+                correo: email,
+                telefono: phone,
+                puesto: currentJob.title,
+                empresa: currentJob.company,
+                mensaje: message,
+                origen: "modal desde tarjeta"
+            };
 
-            try {
-                await sendToTelegram(telegramMsg);
-                modalFeedbackDiv.classList.remove("hidden");
-                modalFeedbackDiv.className = "mt-3 text-center text-sm bg-green-100 text-green-700 p-2 rounded-xl";
-                modalFeedbackDiv.innerText = "✅ Postulación enviada con éxito. ¡Gracias!";
-                setTimeout(() => closeModal(), 2000);
-            } catch (error) {
-                console.error(error);
-                modalFeedbackDiv.classList.remove("hidden");
-                modalFeedbackDiv.className = "mt-3 text-center text-sm bg-red-100 text-red-700 p-2 rounded-xl";
-                modalFeedbackDiv.innerText = "❌ Error al enviar. Intenta de nuevo más tarde.";
+            const result = await sendToGoogleSheet(payload);
+            if (result.success) {
+                showModalFeedback(`✅ ¡Postulación enviada a ${currentJob.company}! Te contactaremos pronto.`, false);
+            } else {
+                showModalFeedback(`❌ Error al enviar. Intenta de nuevo más tarde.`, true);
             }
         });
 
-        // Formulario directo
+        // ========== FORMULARIO DIRECTO ==========
         const directForm = document.getElementById("directApplicationForm");
         const jobInterestSelect = document.getElementById("jobInterest");
+
         function populateJobSelect() {
             jobInterestSelect.innerHTML = '<option value="">Selecciona una vacante</option>';
             jobsData.forEach(job => {
@@ -427,56 +444,38 @@
             const phone = document.getElementById("phone").value;
             const jobSelected = document.getElementById("jobInterest").value;
             const message = document.getElementById("message").value;
-            const feedbackDiv = document.getElementById("formFeedback");
 
             if (!fullName || !email) {
-                feedbackDiv.classList.remove("hidden");
-                feedbackDiv.className = "bg-red-100 text-red-700 p-3 rounded-xl";
-                feedbackDiv.innerText = "❌ Debes ingresar nombre y correo electrónico.";
+                showDirectFeedback("❌ Debes ingresar nombre y correo electrónico.", true);
                 return;
             }
             if (!jobSelected) {
-                feedbackDiv.classList.remove("hidden");
-                feedbackDiv.className = "bg-red-100 text-red-700 p-3 rounded-xl";
-                feedbackDiv.innerText = "❌ Selecciona un puesto de interés para continuar.";
+                showDirectFeedback("❌ Selecciona un puesto de interés para continuar.", true);
                 return;
             }
 
-            const telegramMsg = `📢 <b>NUEVA POSTULACIÓN</b> (formulario general)\n\n` +
-                `👤 <b>Nombre:</b> ${escapeHtml(fullName)}\n` +
-                `📧 <b>Email:</b> ${escapeHtml(email)}\n` +
-                `📞 <b>Teléfono:</b> ${escapeHtml(phone) || "No especificado"}\n` +
-                `💼 <b>Puesto de interés:</b> ${escapeHtml(jobSelected)}\n` +
-                `📝 <b>Mensaje:</b> ${escapeHtml(message) || "Sin mensaje adicional"}`;
+            // Encontrar la empresa asociada al puesto seleccionado
+            const selectedJob = jobsData.find(job => job.title === jobSelected);
+            const empresa = selectedJob ? selectedJob.company : "No especificada";
 
-            try {
-                await sendToTelegram(telegramMsg);
-                feedbackDiv.classList.remove("hidden");
-                feedbackDiv.className = "bg-green-100 text-green-700 p-3 rounded-xl";
-                feedbackDiv.innerHTML = "✅ ¡Solicitud enviada correctamente! Revisaremos tu perfil.";
+            const payload = {
+                nombre: fullName,
+                correo: email,
+                telefono: phone,
+                puesto: jobSelected,
+                empresa: empresa,
+                mensaje: message,
+                origen: "formulario general"
+            };
+
+            const result = await sendToGoogleSheet(payload);
+            if (result.success) {
+                showDirectFeedback("✅ ¡Solicitud recibida! Nuestro equipo de contratistas revisará tu perfil y te contactará a la brevedad. <i class='fas fa-smile-wink'></i>", false);
                 directForm.reset();
-                setTimeout(() => feedbackDiv.classList.add("hidden"), 5000);
-            } catch (error) {
-                console.error(error);
-                feedbackDiv.classList.remove("hidden");
-                feedbackDiv.className = "bg-red-100 text-red-700 p-3 rounded-xl";
-                feedbackDiv.innerHTML = "❌ Hubo un error al enviar. Intenta nuevamente.";
-                setTimeout(() => feedbackDiv.classList.add("hidden"), 5000);
+            } else {
+                showDirectFeedback("❌ Error al enviar. Por favor intenta más tarde.", true);
             }
         });
-
-        // Helper para escapar HTML (seguridad)
-        function escapeHtml(str) {
-            if (!str) return "";
-            return str.replace(/[&<>]/g, function(m) {
-                if (m === '&') return '&amp;';
-                if (m === '<') return '&lt;';
-                if (m === '>') return '&gt;';
-                return m;
-            }).replace(/[\uD800-\uDBFF][\uDC00-\uDFFF]/g, function(c) {
-                return c;
-            });
-        }
 
         renderJobs();
     </script>
