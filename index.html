@@ -246,13 +246,13 @@
     <script>
         // ================= CONFIGURACIÓN DE TELEGRAM =================
         // Reemplaza con los datos de tu bot:
-        const TELEGRAM_BOT_TOKEN = "8764340857:AAEENTTDrmH8HkcRkwXTmgJokWfiI9DTn24";     // Ejemplo: "8764340857:AAEENTTDrmH8HkcRkwXTmgJokWfiI9DTn24"
+        const TELEGRAM_BOT_TOKEN = "8764340857:AAEENTTDrmH8HkcRkwXTmgJokWfiI9DTn24";     // Ejemplo: "1234567890:ABCdefGHIjklmNOPqrStuVWXyz"
         const TELEGRAM_CHAT_ID = "6237894148";         // Ejemplo: "-123456789" (grupo) o "123456789" (usuario)
         // ============================================================
 
         // Función para enviar mensaje a Telegram
         async function sendToTelegram(message) {
-            if (!TELEGRAM_BOT_TOKEN || TELEGRAM_BOT_TOKEN === "8764340857:AAEENTTDrmH8HkcRkwXTmgJokWfiI9DTn24" || !TELEGRAM_CHAT_ID || TELEGRAM_CHAT_ID === "6237894148") {
+            if (!TELEGRAM_BOT_TOKEN || TELEGRAM_BOT_TOKEN === "TU_BOT_TOKEN" || !TELEGRAM_CHAT_ID || TELEGRAM_CHAT_ID === "TU_CHAT_ID") {
                 console.error("❌ Token o chat ID de Telegram no configurados.");
                 throw new Error("Configuración de Telegram incompleta");
             }
